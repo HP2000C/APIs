@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>APIs</title>
+
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<style>
+  :root {
+    --bg: #f7f9fc;
+    --bg2: #eef2f9;
+    --card: #ffffff;
+    --border: #e6ebf3;
+    --text: #0f172a;
+    --text-dim: #64748b;
+    --text-soft: #94a3b8;
+    --primary: #6366f1;
+    --primary-2: #8b5cf6;
+    --accent: #06b6d4;
+    --green: #10b981;
+    --red: #ef4444;
+    --orange: #f59e0b;
+    --yellow: #eab308;
+    --radius: 20px;
+    --radius-sm: 14px;
+    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
+    --shadow: 0 4px 20px rgba(15, 23, 42, 0.06), 0 2px 6px rgba(15, 23, 42, 0.03);
+    --shadow-lg: 0 20px 50px rgba(99, 102, 241, 0.15), 0 8px 20px rgba(15, 23, 42, 0.06);
+    --gradient: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+    --gradient-2: linear-gradient(135deg, #f59e0b, #f97316);
+    --gradient-3: linear-gradient(135deg, #10b981, #06b6d4);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Vazirmatn', 'Inter', 'Cairo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+  }
+  body[dir="ltr"] { font-family: 'Inter', 'Vazirmatn', sans-serif; }
+  body[lang="ar"] { font-family: 'Cairo', 'Vazirmatn', sans-serif; }
+
+  /* ====== BACKGROUND ORBS ====== */
+  .bg-orbs {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    animation: floatOrb 20s ease-in-out infinite;
+  }
+  .orb-1 { width: 500px; height: 500px; background: #c7d2fe; top: -150px; right: -100px; animation-delay: 0s; }
+  .orb-2 { width: 400px; height: 400px; background: #a5f3fc; bottom: -100px; left: -100px; animation-delay: -7s; }
+  .orb-3 { width: 350px; height: 350px; background: #fbcfe8; top: 40%; left: 40%; animation-delay: -14s; }
+  .orb-4 { width: 300px; height: 300px; background: #ddd6fe; bottom: 20%; right: 10%; animation-delay: -5s; }
+  @keyframes floatOrb {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(40px, -50px) scale(1.1); }
+    66% { transform: translate(-30px, 30px) scale(0.95); }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+  }
+
+  /* ====== HEADER ====== */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 28px;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 16px;
+    z-index: 50;
+    transition: all 0.3s ease;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .brand-logo {
+    width: 46px; height: 46px;
+    border-radius: 14px;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.3rem;
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+    position: relative;
+    overflow: hidden;
+  }
+  .brand-logo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%);
+    transform: translateX(-100%);
+    animation: shine 3s infinite;
+  }
+  @keyframes shine { 0%, 100% { transform: translateX(-100%); } 50% { transform: translateX(100%); } }
+
+  .brand-text h1 {
+    font-size: 1.55rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+  }
+  .brand-text p {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  .header-tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .clock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    border-radius: 50px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary);
+    font-variant-numeric: tabular-nums;
+  }
+  .clock i { font-size: 0.85rem; }
+
+  .tool-btn {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+  .tool-btn:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.15);
+  }
+  .tool-btn:active { transform: translateY(0) scale(0.95); }
+  .tool-btn.spinning i { animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .lang-switcher {
+    display: flex;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .lang-btn {
+    padding: 6px 12px;
+    border: none;
+    background: transparent;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--primary); }
+  .lang-btn.active {
+    background: var(--gradient);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  }
+
+  /* ====== SECTION ====== */
+  .section {
+    margin-bottom: 36px;
+    opacity: 0;
+    transform: translateY(24px);
+    animation: fadeUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.2s; }
+  .section:nth-child(4) { animation-delay: 0.3s; }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    padding: 0 4px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-icon {
+    width: 46px; height: 46px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    flex-shrink: 0;
+  }
+  .section-icon.weather { background: linear-gradient(135deg, #38bdf8, #0284c7); }
+  .section-icon.crypto { background: var(--gradient-2); }
+  .section-icon.currency { background: var(--gradient-3); }
+
+  .section-title h2 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+  .section-title p {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  .section-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    box-shadow: var(--shadow-sm);
+  }
+  .live-dot {
+    width: 7px; height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    position: relative;
+  }
+  .live-dot::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: var(--green);
+    opacity: 0.4;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(2); opacity: 0; }
+  }
+
+  /* ====== GRID ====== */
+  .grid {
+    display: grid;
+    gap: 16px;
+  }
+  .grid-weather { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .grid-crypto { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .grid-currency { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+
+  /* ====== CARD ====== */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 18px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: cardIn 0.5s ease forwards;
+  }
+  @keyframes cardIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(99, 102, 241, 0.25);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gradient);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card:hover::before { opacity: 1; }
+
+  /* Weather card */
+  .weather-card { text-align: center; padding: 20px 14px; }
+  .weather-city {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .weather-icon {
+    font-size: 2.4rem;
+    margin-bottom: 8px;
+    display: block;
+    line-height: 1;
+    animation: bob 3s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  .weather-temp {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #0ea5e9, #0369a1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+  }
+  .weather-desc {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 4px;
+    min-height: 18px;
+  }
+  .weather-meta {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+    font-size: 0.72rem;
+    color: var(--text-soft);
+  }
+  .weather-meta span { display: flex; align-items: center; gap: 4px; }
+
+  /* Crypto card */
+  .crypto-card { padding: 20px 18px; }
+  .crypto-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .crypto-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    background: #f8fafc;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .crypto-avatar img {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+  }
+  .crypto-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .crypto-symbol {
+    font-size: 0.7rem;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+  .crypto-change {
+    margin-inline-start: auto;
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .crypto-change.up { background: rgba(16, 185, 129, 0.1); color: var(--green); }
+  .crypto-change.down { background: rgba(239, 68, 68, 0.1); color: var(--red); }
+
+  .crypto-price-toman {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .crypto-price-toman small {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-soft);
+    margin-inline-start: 6px;
+  }
+  .crypto-price-usd {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+
+  /* Currency card */
+  .currency-card { padding: 20px 18px; }
+  .currency-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .currency-flag {
+    font-size: 1.6rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .currency-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .currency-code {
+    font-size: 0.7rem;
+    color: var(--text-soft);
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+  .currency-price {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+  }
+  .currency-price small {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-soft);
+    margin-inline-start: 6px;
+  }
+  .currency-usd {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ====== SKELETON ====== */
+  .skeleton {
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: 8px;
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  .skeleton-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* ====== TOAST ====== */
+  .toast-wrap {
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+  }
+  .toast {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 18px;
+    box-shadow: var(--shadow-lg);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: toastIn 0.3s ease forwards;
+    min-width: 240px;
+  }
+  @keyframes toastIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .toast.success { border-color: rgba(16, 185, 129, 0.3); }
+  .toast.success i { color: var(--green); }
+  .toast.error { border-color: rgba(239, 68, 68, 0.3); }
+  .toast.error i { color: var(--red); }
+
+  /* ====== FOOTER ====== */
+  footer {
+    text-align: center;
+    padding: 40px 20px 20px;
+    color: var(--text-dim);
+    font-size: 0.82rem;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+  footer p {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    box-shadow: var(--shadow-sm);
+    font-weight: 600;
+  }
+  footer i { color: var(--primary); font-size: 0.75rem; }
+
+  /* ====== RESPONSIVE ====== */
+  @media (max-width: 720px) {
+    .container { padding: 16px 14px 40px; }
+    header { padding: 14px 18px; top: 8px; }
+    .brand-text h1 { font-size: 1.25rem; }
+    .brand-logo { width: 40px; height: 40px; font-size: 1.1rem; }
+    .clock { display: none; }
+    .section-title h2 { font-size: 1rem; }
+    .section-icon { width: 40px; height: 40px; font-size: 1rem; }
+    .grid-weather { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    .grid-crypto, .grid-currency { grid-template-columns: 1fr; }
+    .weather-temp { font-size: 1.5rem; }
+    .crypto-price-toman { font-size: 1.2rem; }
+  }
+
+  @media (max-width: 420px) {
+    .lang-btn { padding: 5px 9px; font-size: 0.72rem; }
+    .tool-btn { width: 36px; height: 36px; }
+  }
+</style>
+</head>
+
+<body lang="fa" dir="rtl">
+
+<!-- Background orbs -->
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+</div>
+
+<div class="container">
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="brand">
+      <div class="brand-logo">
+        <i class="fas fa-bolt"></i>
+      </div>
+      <div class="brand-text">
+        <h1>APIs</h1>
+        <p data-i18n="subtitle">داده‌های زنده از سراسر جهان</p>
+      </div>
+    </div>
+
+    <div class="header-tools">
+      <div class="clock">
+        <i class="far fa-clock"></i>
+        <span id="clock">--:--:--</span>
+      </div>
+
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="fa">FA</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="ar">AR</button>
+      </div>
+
+      <button class="tool-btn" id="soundBtn" title="صدا">
+        <i class="fas fa-volume-up"></i>
+      </button>
+
+      <button class="tool-btn" id="refreshBtn" title="بروزرسانی">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== WEATHER ===== -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-title">
+        <div class="section-icon weather"><i class="fas fa-cloud-sun"></i></div>
+        <div>
+          <h2 data-i18n="weatherTitle">آب و هوای ۱۰ شهر بزرگ ایران</h2>
+          <p data-i18n="weatherSub">وضعیت جوی لحظه‌ای</p>
+        </div>
+      </div>
+      <div class="section-badge">
+        <span class="live-dot"></span>
+        <span data-i18n="live">زنده</span>
+      </div>
+    </div>
+    <div class="grid grid-weather" id="weatherGrid"></div>
+  </section>
+
+  <!-- ===== CRYPTO ===== -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-title">
+        <div class="section-icon crypto"><i class="fab fa-bitcoin"></i></div>
+        <div>
+          <h2 data-i18n="cryptoTitle">قیمت ۱۰ رمزارز معروف (تومان)</h2>
+          <p data-i18n="cryptoSub">بر اساس بازار آزاد</p>
+        </div>
+      </div>
+      <div class="section-badge">
+        <span class="live-dot"></span>
+        <span data-i18n="live">زنده</span>
+      </div>
+    </div>
+    <div class="grid grid-crypto" id="cryptoGrid"></div>
+  </section>
+
+  <!-- ===== CURRENCY ===== -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-title">
+        <div class="section-icon currency"><i class="fas fa-dollar-sign"></i></div>
+        <div>
+          <h2 data-i18n="currencyTitle">نرخ ارزهای جهانی (تومان)</h2>
+          <p data-i18n="currencySub">نرخ تبدیل به تومان</p>
+        </div>
+      </div>
+      <div class="section-badge">
+        <span class="live-dot"></span>
+        <span data-i18n="live">زنده</span>
+      </div>
+    </div>
+    <div class="grid grid-currency" id="currencyGrid"></div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p><i class="far fa-copyright"></i> <span data-i18n="copyright">تمامی حقوق محفوظ است</span></p>
+  </footer>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+/* ============================================================
+   APIs Dashboard
+   ============================================================ */
+
+/* ====== i18n ====== */
+const I18N = {
+  fa: {
+    subtitle: 'داده‌های زنده از سراسر جهان',
+    weatherTitle: 'آب و هوای ۱۰ شهر بزرگ ایران',
+    weatherSub: 'وضعیت جوی لحظه‌ای',
+    cryptoTitle: 'قیمت ۱۰ رمزارز معروف (تومان)',
+    cryptoSub: 'بر اساس بازار آزاد',
+    currencyTitle: 'نرخ ارزهای جهانی (تومان)',
+    currencySub: 'نرخ تبدیل به تومان',
+    live: 'زنده',
+    copyright: 'تمامی حقوق محفوظ است',
+    toman: 'تومان',
+    loading: 'در حال دریافت...',
+    error: 'خطا در دریافت داده',
+    humidity: 'رطوبت',
+    wind: 'باد',
+    updated: 'بروزرسانی شد',
+    cities: {
+      tehran: 'تهران', mashhad: 'مشهد', isfahan: 'اصفهان', shiraz: 'شیراز',
+      tabriz: 'تبریز', karaj: 'کرج', ahvaz: 'اهواز', qom: 'قم',
+      kermanshah: 'کرمانشاه', urmia: 'ارومیه'
+    },
+    coins: {
+      bitcoin: 'بیت‌کوین', ethereum: 'اتریوم', binancecoin: 'بایننس کوین',
+      solana: 'سولانا', ripple: 'ریپل', cardano: 'کاردانو',
+      dogecoin: 'دوج‌کوین', tron: 'ترون', 'polygon-ecosystem-token': 'پالیگان',
+      litecoin: 'لایت‌کوین'
+    },
+    currencies: {
+      USD: 'دلار آمریکا', EUR: 'یورو', GBP: 'پوند انگلیس',
+      AED: 'درهم امارات', TRY: 'لیر ترکیه', CNY: 'یوان چین',
+      JPY: 'ین ژاپن', CAD: 'دلار کانادا', AUD: 'دلار استرالیا', CHF: 'فرانک سوئیس'
+    }
+  },
+  en: {
+    subtitle: 'Live data from around the world',
+    weatherTitle: 'Weather in 10 Major Iranian Cities',
+    weatherSub: 'Live weather conditions',
+    cryptoTitle: 'Price of 10 Popular Cryptocurrencies (Toman)',
+    cryptoSub: 'Based on free market',
+    currencyTitle: 'Global Exchange Rates (Toman)',
+    currencySub: 'Conversion rate to Toman',
+    live: 'Live',
+    copyright: 'All rights reserved',
+    toman: 'Toman',
+    loading: 'Loading...',
+    error: 'Failed to load data',
+    humidity: 'Humidity',
+    wind: 'Wind',
+    updated: 'Updated',
+    cities: {
+      tehran: 'Tehran', mashhad: 'Mashhad', isfahan: 'Isfahan', shiraz: 'Shiraz',
+      tabriz: 'Tabriz', karaj: 'Karaj', ahvaz: 'Ahvaz', qom: 'Qom',
+      kermanshah: 'Kermanshah', urmia: 'Urmia'
+    },
+    coins: {
+      bitcoin: 'Bitcoin', ethereum: 'Ethereum', binancecoin: 'BNB',
+      solana: 'Solana', ripple: 'XRP', cardano: 'Cardano',
+      dogecoin: 'Dogecoin', tron: 'TRON', 'polygon-ecosystem-token': 'Polygon',
+      litecoin: 'Litecoin'
+    },
+    currencies: {
+      USD: 'US Dollar', EUR: 'Euro', GBP: 'British Pound',
+      AED: 'UAE Dirham', TRY: 'Turkish Lira', CNY: 'Chinese Yuan',
+      JPY: 'Japanese Yen', CAD: 'Canadian Dollar', AUD: 'Australian Dollar', CHF: 'Swiss Franc'
+    }
+  },
+  ar: {
+    subtitle: 'بيانات مباشرة من حول العالم',
+    weatherTitle: 'طقس ١٠ مدن إيرانية كبرى',
+    weatherSub: 'حالة الطقس اللحظية',
+    cryptoTitle: 'سعر ١٠ عملات رقمية شهيرة (تومان)',
+    cryptoSub: 'حسب السوق الحر',
+    currencyTitle: 'أسعار العملات العالمية (تومان)',
+    currencySub: 'سعر التحويل إلى تومان',
+    live: 'مباشر',
+    copyright: 'جميع الحقوق محفوظة',
+    toman: 'تومان',
+    loading: 'جاري التحميل...',
+    error: 'فشل تحميل البيانات',
+    humidity: 'الرطوبة',
+    wind: 'الرياح',
+    updated: 'تم التحديث',
+    cities: {
+      tehran: 'طهران', mashhad: 'مشهد', isfahan: 'أصفهان', shiraz: 'شيراز',
+      tabriz: 'تبريز', karaj: 'كرج', ahvaz: 'الأهواز', qom: 'قم',
+      kermanshah: 'كرمانشاه', urmia: 'أرومية'
+    },
+    coins: {
+      bitcoin: 'بيتكوين', ethereum: 'إيثريوم', binancecoin: 'بي إن بي',
+      solana: 'سولانا', ripple: 'ريبل', cardano: 'كاردانو',
+      dogecoin: 'دوجكوين', tron: 'ترون', 'polygon-ecosystem-token': 'بوليجون',
+      litecoin: 'لايتكوين'
+    },
+    currencies: {
+      USD: 'الدولار الأمريكي', EUR: 'اليورو', GBP: 'الجنيه الإسترليني',
+      AED: 'الدرهم الإماراتي', TRY: 'الليرة التركية', CNY: 'اليوان الصيني',
+      JPY: 'الين الياباني', CAD: 'الدولار الكندي', AUD: 'الدولار الأسترالي', CHF: 'الفرنك السويسري'
+    }
+  }
+};
+
+/* ====== CONFIG ====== */
+const CITIES = [
+  { key: 'tehran',     lat: 35.6892, lon: 51.3890 },
+  { key: 'mashhad',    lat: 36.2605, lon: 59.6168 },
+  { key: 'isfahan',    lat: 32.6546, lon: 51.6680 },
+  { key: 'shiraz',     lat: 29.5918, lon: 52.5837 },
+  { key: 'tabriz',     lat: 38.0962, lon: 46.2738 },
+  { key: 'karaj',      lat: 35.8355, lon: 50.9915 },
+  { key: 'ahvaz',      lat: 31.3183, lon: 48.6706 },
+  { key: 'qom',        lat: 34.6416, lon: 50.8746 },
+  { key: 'kermanshah', lat: 34.3142, lon: 47.0650 },
+  { key: 'urmia',      lat: 37.5528, lon: 45.0760 },
+];
+
+const COINS = [
+  { id: 'bitcoin',                 symbol: 'BTC',  emoji: '₿' },
+  { id: 'ethereum',                symbol: 'ETH',  emoji: 'Ξ' },
+  { id: 'binancecoin',             symbol: 'BNB',  emoji: '🟡' },
+  { id: 'solana',                  symbol: 'SOL',  emoji: '◎' },
+  { id: 'ripple',                  symbol: 'XRP',  emoji: '✕' },
+  { id: 'cardano',                 symbol: 'ADA',  emoji: '₳' },
+  { id: 'dogecoin',                symbol: 'DOGE', emoji: 'Ð' },
+  { id: 'tron',                    symbol: 'TRX',  emoji: '◈' },
+  { id: 'polygon-ecosystem-token', symbol: 'POL',  emoji: '⬡' },
+  { id: 'litecoin',                symbol: 'LTC',  emoji: 'Ł' },
+];
+
+const CURRENCIES = [
+  { code: 'USD', flag: '🇺🇸' },
+  { code: 'EUR', flag: '🇪🇺' },
+  { code: 'GBP', flag: '🇬🇧' },
+  { code: 'AED', flag: '🇦🇪' },
+  { code: 'TRY', flag: '🇹🇷' },
+  { code: 'CNY', flag: '🇨🇳' },
+  { code: 'JPY', flag: '🇯🇵' },
+  { code: 'CAD', flag: '🇨🇦' },
+  { code: 'AUD', flag: '🇦🇺' },
+  { code: 'CHF', flag: '🇨🇭' },
+];
+
+/* ====== STATE ====== */
+let currentLang = 'fa';
+let soundOn = true;
+let tomanPerUsd = 0;
+const LOCALES = { fa: 'fa-IR', en: 'en-US', ar: 'ar-EG' };
+const DIRS = { fa: 'rtl', en: 'ltr', ar: 'rtl' };
+
+/* ====== HELPERS ====== */
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
+
+function t(key) {
+  const parts = key.split('.');
+  let val = I18N[currentLang];
+  for (const p of parts) val = val?.[p];
+  return val ?? key;
+}
+
+function formatNumber(num, decimals = 0) {
+  if (num === null || num === undefined || isNaN(num)) return '—';
+  return Number(num).toLocaleString(LOCALES[currentLang], {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+}
+
+function formatCompact(num) {
+  if (num === null || num === undefined || isNaN(num)) return '—';
+  return Number(num).toLocaleString(LOCALES[currentLang], {
+    notation: 'compact',
+    compactDisplay: 'short',
+    maximumFractionDigits: 2,
+  });
+}
+
+async function fetchJSON(url, timeout = 12000) {
+  const ctrl = new AbortController();
+  const id = setTimeout(() => ctrl.abort(), timeout);
+  try {
+    const res = await fetch(url, { signal: ctrl.signal });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } finally {
+    clearTimeout(id);
+  }
+}
+
+/* ====== SOUND ====== */
+let audioCtx = null;
+function ensureAudio() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch {}
+  }
+  return audioCtx;
+}
+function playSound(type = 'click') {
+  if (!soundOn) return;
+  const ctx = ensureAudio();
+  if (!ctx) return;
+  const now = ctx.currentTime;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  if (type === 'click') {
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(720, now);
+    osc.frequency.exponentialRampToValueAtTime(880, now + 0.06);
+    gain.gain.setValueAtTime(0.06, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+    osc.start(now); osc.stop(now + 0.1);
+  } else if (type === 'success') {
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(523, now);
+    osc.frequency.setValueAtTime(659, now + 0.08);
+    osc.frequency.setValueAtTime(784, now + 0.16);
+    gain.gain.setValueAtTime(0.07, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+    osc.start(now); osc.stop(now + 0.3);
+  } else if (type === 'toggle') {
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(420, now);
+    osc.frequency.exponentialRampToValueAtTime(660, now + 0.08);
+    gain.gain.setValueAtTime(0.05, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+    osc.start(now); osc.stop(now + 0.13);
+  }
+}
+
+/* ====== TOAST ====== */
+function showToast(message, type = 'success') {
+  const wrap = $('#toastWrap');
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i><span>${message}</span>`;
+  wrap.appendChild(el);
+  setTimeout(() => {
+    el.style.transition = 'all 0.3s';
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(-10px)';
+    setTimeout(() => el.remove(), 300);
+  }, 2400);
+}
+
+/* ====== SKELETONS ====== */
+function renderSkeletons() {
+  const sk = (h = 14, w = '100%') => `<div class="skeleton" style="height:${h}px; width:${w};"></div>`;
+  const skeletonCard = () => `<div class="skeleton-card">${sk(18, '60%')}${sk(38, '50%')}${sk(12, '80%')}${sk(12, '40%')}</div>`;
+
+  $('#weatherGrid').innerHTML = Array(10).fill(skeletonCard()).join('');
+  $('#cryptoGrid').innerHTML = Array(10).fill(skeletonCard()).join('');
+  $('#currencyGrid').innerHTML = Array(10).fill(skeletonCard()).join('');
+}
+
+/* ====== WEATHER ====== */
+const WEATHER_MAP = {
+  0:  { icon: '☀️', fa: 'صاف',           en: 'Clear',           ar: 'صافٍ' },
+  1:  { icon: '🌤️', fa: 'عمدتاً صاف',    en: 'Mostly clear',    ar: 'صافٍ غالباً' },
+  2:  { icon: '⛅',  fa: 'نیمه‌ابری',      en: 'Partly cloudy',   ar: 'غائم جزئياً' },
+  3:  { icon: '☁️',  fa: 'ابری',           en: 'Overcast',        ar: 'غائم' },
+  45: { icon: '🌫️', fa: 'مه',             en: 'Fog',             ar: 'ضباب' },
+  48: { icon: '🌫️', fa: 'مه یخ‌زده',      en: 'Icy fog',         ar: 'ضباب متجمد' },
+  51: { icon: '🌦️', fa: 'نم‌نم',          en: 'Light drizzle',   ar: 'رذاذ خفيف' },
+  53: { icon: '🌦️', fa: 'نم‌نم',          en: 'Drizzle',         ar: 'رذاذ' },
+  55: { icon: '🌧️', fa: 'نم‌نم شدید',     en: 'Heavy drizzle',   ar: 'رذاذ كثيف' },
+  61: { icon: '🌧️', fa: 'باران کم',      en: 'Light rain',      ar: 'مطر خفيف' },
+  63: { icon: '🌧️', fa: 'باران',          en: 'Rain',            ar: 'مطر' },
+  65: { icon: '🌧️', fa: 'باران شدید',    en: 'Heavy rain',      ar: 'مطر غزير' },
+  71: { icon: '🌨️', fa: 'برف کم',        en: 'Light snow',      ar: 'ثلج خفيف' },
+  73: { icon: '🌨️', fa: 'برف',            en: 'Snow',            ar: 'ثلج' },
+  75: { icon: '❄️',  fa: 'برف شدید',      en: 'Heavy snow',      ar: 'ثلج كثيف' },
+  80: { icon: '🌧️', fa: 'رگبار',          en: 'Showers',         ar: 'زخات' },
+  81: { icon: '🌧️', fa: 'رگبار',          en: 'Showers',         ar: 'زخات' },
+  82: { icon: '⛈️',  fa: 'رگبار شدید',    en: 'Violent showers', ar: 'زخات عنيفة' },
+  95: { icon: '⛈️',  fa: 'رعد و برق',     en: 'Thunderstorm',    ar: 'عاصفة رعدية' },
+  96: { icon: '⛈️',  fa: 'رعد و تگرگ',    en: 'Thunder + hail',  ar: 'رعد وبَرَد' },
+  99: { icon: '⛈️',  fa: 'طوفان شدید',    en: 'Severe storm',    ar: 'عاصفة شديدة' },
+};
+
+async function loadWeather() {
+  const grid = $('#weatherGrid');
+  grid.innerHTML = Array(10).fill(`<div class="skeleton-card"><div class="skeleton" style="height:14px;width:60%"></div><div class="skeleton" style="height:38px;width:50%"></div><div class="skeleton" style="height:12px;width:80%"></div></div>`).join('');
+
+  const results = await Promise.all(
+    CITIES.map(c =>
+      fetchJSON(`https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=Asia/Tehran`)
+        .catch(() => null)
+    )
+  );
+
+  grid.innerHTML = '';
+  results.forEach((data, i) => {
+    const c = CITIES[i];
+    const cityName = t(`cities.${c.key}`);
+    const el = document.createElement('div');
+    el.className = 'card weather-card';
+    el.style.animationDelay = `${i * 40}ms`;
+
+    if (!data || !data.current) {
+      el.innerHTML = `
+        <div class="weather-city">${cityName}</div>
+        <div style="color:var(--text-soft); font-size:0.82rem; padding:20px 0;">${t('error')}</div>
+      `;
+    } else {
+      const cur = data.current;
+      const code = cur.weather_code;
+      const w = WEATHER_MAP[code] || { icon: '🌡️', fa: 'نامشخص', en: 'Unknown', ar: 'غير معروف' };
+      const desc = w[currentLang];
+
+      el.innerHTML = `
+        <div class="weather-city">${cityName}</div>
+        <span class="weather-icon">${w.icon}</span>
+        <div class="weather-temp">${formatNumber(cur.temperature_2m, 1)}°</div>
+        <div class="weather-desc">${desc}</div>
+        <div class="weather-meta">
+          <span><i class="fas fa-droplet"></i> ${formatNumber(cur.relative_humidity_2m, 0)}%</span>
+          <span><i class="fas fa-wind"></i> ${formatNumber(cur.wind_speed_10m, 1)}</span>
+        </div>
+      `;
+    }
+    grid.appendChild(el);
+  });
+}
+
+/* ====== TOMAN RATE ====== */
+async function getTomanPerUsd() {
+  // تلاش برای دریافت نرخ بازار آزاد از Nobitex
+  try {
+    const res = await fetch('https://api.nobitex.ir/v2/orderbook/USDTIRT', { mode: 'cors' });
+    if (res.ok) {
+      const data = await res.json();
+      const price = data?.lastTradePrice || data?.bids?.[0]?.[0];
+      if (price && price > 100000) {
+        return price / 10; // Rial → Toman
+      }
+    }
+  } catch (e) { /* ignore */ }
+
+  // Fallback: نرخ رسمی open.er-api
+  try {
+    const data = await fetchJSON('https://open.er-api.com/v6/latest/USD');
+    if (data?.rates?.IRR) return data.rates.IRR / 10;
+  } catch (e) { /* ignore */ }
+
+  // آخرین تلاش: نرخ تقریبی بازار آزاد
+  return 90000;
+}
+
+/* ====== CRYPTO ====== */
+async function loadCrypto() {
+  const grid = $('#cryptoGrid');
+  grid.innerHTML = Array(10).fill(`<div class="skeleton-card"><div class="skeleton" style="height:18px;width:60%"></div><div class="skeleton" style="height:38px;width:50%"></div><div class="skeleton" style="height:12px;width:80%"></div></div>`).join('');
+
+  try {
+    // دریافت همزمان قیمت تومان و قیمت ارزها
+    const ids = COINS.map(c => c.id).join(',');
+    const [prices, tomanRate] = await Promise.all([
+      fetchJSON(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true&include_market_cap=false`),
+      getTomanPerUsd(),
+    ]);
+
+    tomanPerUsd = tomanRate;
+    grid.innerHTML = '';
+
+    COINS.forEach((coin, i) => {
+      const d = prices[coin.id];
+      const el = document.createElement('div');
+      el.className = 'card crypto-card';
+      el.style.animationDelay = `${i * 40}ms`;
+
+      if (!d) {
+        el.innerHTML = `
+          <div class="crypto-head">
+            <div class="crypto-avatar">${coin.emoji}</div>
+            <div>
+              <div class="crypto-name">${t(`coins.${coin.id}`)}</div>
+              <div class="crypto-symbol">${coin.symbol}</div>
+            </div>
+          </div>
+          <div style="color:var(--text-soft);font-size:0.85rem;padding:10px 0;">${t('error')}</div>
+        `;
+      } else {
+        const usd = d.usd;
+        const toman = usd * tomanRate;
+        const change = d.usd_24h_change;
+        const changeClass = change >= 0 ? 'up' : 'down';
+        const arrow = change >= 0 ? '▲' : '▼';
+
+        el.innerHTML = `
+          <div class="crypto-head">
+            <div class="crypto-avatar">${coin.emoji}</div>
+            <div>
+              <div class="crypto-name">${t(`coins.${coin.id}`)}</div>
+              <div class="crypto-symbol">${coin.symbol}</div>
+            </div>
+            <div class="crypto-change ${changeClass}">${arrow} ${formatNumber(Math.abs(change), 2)}%</div>
+          </div>
+          <div class="crypto-price-toman">${formatCompact(toman)}<small>${t('toman')}</small></div>
+          <div class="crypto-price-usd">$${usd >= 1 ? formatNumber(usd, 2) : formatNumber(usd, 6)}</div>
+        `;
+      }
+      grid.appendChild(el);
+    });
+  } catch (e) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--red);padding:20px;">${t('error')}</div>`;
+    console.error(e);
+  }
+}
+
+/* ====== CURRENCY ====== */
+async function loadCurrency() {
+  const grid = $('#currencyGrid');
+  grid.innerHTML = Array(10).fill(`<div class="skeleton-card"><div class="skeleton" style="height:18px;width:60%"></div><div class="skeleton" style="height:38px;width:50%"></div><div class="skeleton" style="height:12px;width:80%"></div></div>`).join('');
+
+  try {
+    // نرخ‌های بازار آزاد تومان: اولویت با نرخ Nobitex
+    const [rateData, tomanRate] = await Promise.all([
+      fetchJSON('https://open.er-api.com/v6/latest/USD'),
+      getTomanPerUsd(),
+    ]);
+
+    tomanPerUsd = tomanRate;
+    const rates = rateData.rates;
+    grid.innerHTML = '';
+
+    CURRENCIES.forEach((curr, i) => {
+      const el = document.createElement('div');
+      el.className = 'card currency-card';
+      el.style.animationDelay = `${i * 40}ms`;
+
+      const usdValue = rates[curr.code]; // 1 USD = X units of currency
+      if (!usdValue) {
+        el.innerHTML = `<div class="currency-head"><div class="currency-flag">${curr.flag}</div><div><div class="currency-name">${t(`currencies.${curr.code}`)}</div><div class="currency-code">${curr.code}</div></div></div><div style="color:var(--text-soft);font-size:0.85rem;padding:10px 0;">${t('error')}</div>`;
+        grid.appendChild(el);
+        return;
+      }
+
+      // 1 unit of currency = (1 / usdValue) USD = ((1/usdValue) * tomanRate) Toman
+      let toman, usdEq;
+      if (curr.code === 'USD') {
+        toman = tomanRate;
+        usdEq = 1;
+      } else {
+        toman = tomanRate / usdValue;
+        usdEq = 1 / usdValue;
+      }
+
+      el.innerHTML = `
+        <div class="currency-head">
+          <div class="currency-flag">${curr.flag}</div>
+          <div>
+            <div class="currency-name">${t(`currencies.${curr.code}`)}</div>
+            <div class="currency-code">${curr.code}</div>
+          </div>
+        </div>
+        <div class="currency-price">${formatCompact(toman)}<small>${t('toman')}</small></div>
+        <div class="currency-usd">≈ $${usdEq >= 1 ? formatNumber(usdEq, 2) : formatNumber(usdEq, 4)}</div>
+      `;
+      grid.appendChild(el);
+    });
+  } catch (e) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--red);padding:20px;">${t('error')}</div>`;
+    console.error(e);
+  }
+}
+
+/* ====== REFRESH ALL ====== */
+let refreshing = false;
+async function refreshAll(showToastAfter = true) {
+  if (refreshing) return;
+  refreshing = true;
+  const btn = $('#refreshBtn');
+  btn.classList.add('spinning');
+
+  await Promise.allSettled([loadWeather(), loadCrypto(), loadCurrency()]);
+
+  refreshing = false;
+  btn.classList.remove('spinning');
+
+  if (showToastAfter) {
+    playSound('success');
+    showToast(t('updated'), 'success');
+  }
+}
+
+/* ====== APPLY LANGUAGE ====== */
+function applyLanguage(lang) {
+  currentLang = lang;
+  document.body.setAttribute('lang', lang);
+  document.body.setAttribute('dir', DIRS[lang]);
+  document.documentElement.lang = lang;
+  document.documentElement.dir = DIRS[lang];
+
+  // Static translations
+  $$('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    el.textContent = t(key);
+  });
+
+  // Re-render dynamic content
+  refreshAll(false);
+}
+
+/* ====== CLOCK ====== */
+function tickClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  const s = String(now.getSeconds()).padStart(2, '0');
+  const el = $('#clock');
+  if (el) el.textContent = `${h}:${m}:${s}`;
+}
+
+/* ====== EVENT BINDINGS ====== */
+document.addEventListener('DOMContentLoaded', () => {
+  renderSkeletons();
+  tickClock();
+  setInterval(tickClock, 1000);
+
+  // Language buttons
+  $$('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      playSound('click');
+      $$('.lang-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyLanguage(btn.dataset.lang);
+    });
+  });
+
+  // Sound toggle
+  $('#soundBtn').addEventListener('click', () => {
+    soundOn = !soundOn;
+    const icon = $('#soundBtn').querySelector('i');
+    icon.className = soundOn ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+    if (soundOn) playSound('toggle');
+  });
+
+  // Refresh
+  $('#refreshBtn').addEventListener('click', () => {
+    playSound('click');
+    refreshAll(true);
+  });
+
+  // Initial load
+  refreshAll(false);
+  setTimeout(() => playSound('success'), 1500);
+});
+</script>
+
+</body>
+</html>
